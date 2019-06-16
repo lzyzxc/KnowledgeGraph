@@ -34,4 +34,15 @@ public class MainController {
     public ResponseEntity<?> around(@RequestParam String label,@RequestParam Integer id){
         return mainService.around(label,id);
     }
+
+    @RequestMapping(value = "/addNode",method = RequestMethod.GET)
+    public ResponseEntity<?> addNode(@RequestParam String nodeLabel,@RequestParam String attributes){
+        return mainService.addNode(nodeLabel,attributes);
+    }
+
+    @RequestMapping(value = "/addRelation",method = RequestMethod.GET)
+    public ResponseEntity<?> addRelation( @RequestParam String nodeID,@RequestParam String relationName,
+                                    @RequestParam String relationAttribute ){
+        return mainService.addRelation(nodeID,relationName,relationName);
+    }
 }
