@@ -69,8 +69,11 @@ public class MainService {
 //            System.out.println("Label 1 | " + label);
             var nodeAttrs = eachNode.asMap();
             var allLabels = new ArrayList<String>();
+            var cAttrs = new HashMap<String, Object>();
+            cAttrs.put("类型", allLabels);
+            nodeAttrs.keySet().forEach(key -> cAttrs.put(key, nodeAttrs.get(key)));
             eachNode.labels().forEach(allLabels::add);
-            NodeResponse nodeResponse = new NodeResponse(nodeAttrs);
+            NodeResponse nodeResponse = new NodeResponse(cAttrs);
             nodeResponse.setId(Long.toString(eachNode.id()));
             if (nodeAttrs.containsKey("ns6__organization-name")) {
                 nodeResponse.setLabel(nodeAttrs.get("ns6__organization-name").toString());
