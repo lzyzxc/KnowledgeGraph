@@ -17,7 +17,16 @@ public class MainController {
 
     @RequestMapping(value = "/query",method = RequestMethod.GET)
     public ResponseEntity<?> query(@RequestParam String name){
-        return mainService.test(name);
+        return mainService.matchOrg(name);
     }
 
+    @RequestMapping(value = "/multiHop",method = RequestMethod.GET)
+    public ResponseEntity<?> multiHop(@RequestParam String org1,@RequestParam String org2,@RequestParam Integer step){
+        return mainService.multiHop(org1,org2,step);
+    }
+
+    @RequestMapping(value = "/around",method = RequestMethod.GET)
+    public ResponseEntity<?> around(@RequestParam String label,@RequestParam Integer id){
+        return mainService.around(label,id);
+    }
 }

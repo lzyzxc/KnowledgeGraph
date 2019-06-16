@@ -21,8 +21,7 @@ public class MainService {
     private Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "neo4j"));
     private Session session = driver.session();
 
-    public ResponseEntity<?> test(String name){
-        String query = "MATCH p=((:ns4__Organization{`ns6__organization-name`:'"+name+"'}) -[]-()) RETURN p";
+    public ResponseEntity<?> Query(String query){
         StatementResult result = session.run(query);
         Result myResult = new Result();
         ArrayList<Node> myNodes = new ArrayList<>();
@@ -94,5 +93,17 @@ public class MainService {
 
         System.out.println(result.toString());
         return new ResponseEntity<>(graphResponseEntity, HttpStatus.OK);
+    }
+    public ResponseEntity<?> matchOrg(String name){
+        String query = "MATCH p=((:ns4__Organization{`ns6__organization-name`:'"+name+"'}) -[]-()) RETURN p";
+        return Query(query);
+    }
+    public ResponseEntity<?> multiHop(String org1, String org2, Integer step){
+        String query = "MATCH p=((:ns4__Organization{`ns6__organization-name`:'"+org1+"'}) -[*.."+step+"]-(:ns4__Organization{`ns6__organization-name`:'"+org2+"'})) RETURN p limit 1";
+        return Query(query);
+    }
+    public ResponseEntity<?> around(String label, Integer id){
+        String query = "MATCH p=((n:"+label+")-[]-()) where id(n)="+id+" RETURN p";
+        return Query(query);
     }
 }
