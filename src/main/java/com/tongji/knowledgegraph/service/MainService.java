@@ -64,12 +64,28 @@ public class MainService {
         // MT
         GraphResponseEntity graphResponseEntity = new GraphResponseEntity(new ArrayList<>(), new ArrayList<>());
         myNodes.forEach(eachNode -> {
-            NodeResponse nodeResponse = new NodeResponse(Long.toString(eachNode.id()), eachNode.labels().toString());
+//            System.out.println("id | " + eachNode.id());
+//            System.out.println("keys |" + eachNode.asMap().keySet());
+//            System.out.println("Label 1 | " + label);
+            var nodeAttrs = eachNode.asMap();
+            var allLabels = new ArrayList<String>();
+            eachNode.labels().forEach(allLabels::add);
+            NodeResponse nodeResponse = new NodeResponse(nodeAttrs);
+            nodeResponse.setId(Long.toString(eachNode.id()));
+            if (nodeAttrs.containsKey("ns6__organization-name")) {
+                nodeResponse.setLabel(nodeAttrs.get("ns6__organization-name").toString());
+            } else {
+                nodeResponse.setLabel(Long.toString(eachNode.id()));
+            }
+            String cateStr = "4";
+            if (allLabels.size() > 1)
+                 cateStr = allLabels.get(1).split("_")[0].substring(2, 3);
+            nodeResponse.setCategory(Integer.parseInt(cateStr));
             graphResponseEntity.getNodes().add(nodeResponse);
         });
         myRelations.forEach(eachRelation -> {
             EdgeResponse edgeResponse = new EdgeResponse(Long.toString(eachRelation.startNodeId()),
-                    Long.toString(eachRelation.endNodeId()), eachRelation.type());
+                    Long.toString(eachRelation.endNodeId()), eachRelation.type(), eachRelation.asMap());
             graphResponseEntity.getEdges().add(edgeResponse);
         });
 

@@ -17,7 +17,7 @@ public class MainController {
 
     @RequestMapping(value = "/query",method = RequestMethod.GET)
     public ResponseEntity<?> query(@RequestParam String name){
-        return mainService.test("Idemitsu Kosan Co Ltd");
+        return mainService.test(name);
     }
 
 }
