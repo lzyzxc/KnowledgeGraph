@@ -1,13 +1,14 @@
 package com.tongji.knowledgegraph.service;
 
-import com.tongji.knowledgegraph.model.MyNode;
-import com.tongji.knowledgegraph.model.MyRelation;
-import com.tongji.knowledgegraph.model.Result;
+import com.tongji.knowledgegraph.model.*;
 import org.neo4j.driver.v1.*;
 import org.neo4j.driver.v1.types.Entity;
 import org.neo4j.driver.v1.types.Node;
 import org.neo4j.driver.v1.types.Path;
 import org.neo4j.driver.v1.types.Relationship;
+import org.neo4j.ogm.model.Edge;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class MainService {
     private Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "neo4j"));
     private Session session = driver.session();
 
-    public Result test(String name){
+    public ResponseEntity<?> test(String name){
         String query = "MATCH p=((:ns4__Organization{`ns6__organization-name`:'"+name+"'}) -[]-()) RETURN p";
         StatementResult result = session.run(query);
         Result myResult = new Result();
@@ -59,7 +60,20 @@ public class MainService {
         }
         myResult.setNodes(myNodes);
         myResult.setRelationships(myRelations);
+
+        // MT
+        GraphResponseEntity graphResponseEntity = new GraphResponseEntity(new ArrayList<>(), new ArrayList<>());
+        myNodes.forEach(eachNode -> {
+            NodeResponse nodeResponse = new NodeResponse(Long.toString(eachNode.id()), eachNode.labels().toString());
+            graphResponseEntity.getNodes().add(nodeResponse);
+        });
+        myRelations.forEach(eachRelation -> {
+            EdgeResponse edgeResponse = new EdgeResponse(Long.toString(eachRelation.startNodeId()),
+                    Long.toString(eachRelation.endNodeId()), eachRelation.type());
+            graphResponseEntity.getEdges().add(edgeResponse);
+        });
+
         System.out.println(result.toString());
-        return myResult;
+        return new ResponseEntity<>(graphResponseEntity, HttpStatus.OK);
     }
 }
