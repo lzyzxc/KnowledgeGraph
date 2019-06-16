@@ -20,6 +20,11 @@ public class MainController {
         return mainService.matchOrg(name);
     }
 
+    @RequestMapping(value = "/queryPerson",method = RequestMethod.GET)
+    public ResponseEntity<?> queryPerson(@RequestParam String familyName,@RequestParam String givenName){
+        return mainService.matchPersonOrg(familyName, givenName);
+    }
+
     @RequestMapping(value = "/multiHop",method = RequestMethod.GET)
     public ResponseEntity<?> multiHop(@RequestParam String org1,@RequestParam String org2,@RequestParam Integer step){
         return mainService.multiHop(org1,org2,step);

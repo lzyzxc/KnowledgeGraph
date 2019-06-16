@@ -95,7 +95,11 @@ public class MainService {
                 nodeResponse.setId(Long.toString(eachNode.id()));
                 if (nodeAttrs.containsKey("ns6__organization-name")) {
                     nodeResponse.setLabel(nodeAttrs.get("ns6__organization-name").toString());
-                } else {
+                }
+                else if(nodeAttrs.containsKey("ns6__family-name")){
+                    nodeResponse.setLabel(nodeAttrs.get("ns6__family-name").toString());
+                }
+                else {
                     nodeResponse.setLabel(Long.toString(eachNode.id()));
                 }
                 String cateStr = "4";
@@ -119,15 +123,21 @@ public class MainService {
         return new ResponseEntity<>(graphResponse, HttpStatus.OK);
     }
     public ResponseEntity<?> matchOrg(String name){
-        String query = "MATCH p=((:ns4__Organization{`ns6__organization-name`:'"+name+"'}) -[]-()) RETURN p";
+        String query = "MATCH p=((:ns4__Organization{`ns6__organization-name`:'"+name+"'}) -[]-()) RETURN p limit 100";
         return Query(query);
     }
+
+    public ResponseEntity<?> matchPersonOrg(String familyname, String givenName){
+        String query = "MATCH p=((:ns8__Person{`ns6__family-name`:'"+familyname+"',`ns6__given-name`:'"+givenName+"'}) -[]-()) RETURN p limit 100";
+        return Query(query);
+    }
+
     public ResponseEntity<?> multiHop(String org1, String org2, Integer step){
         String query = "MATCH p=shortestPath((:ns4__Organization{`ns6__organization-name`:'"+org1+"'}) -[*.."+step+"]-(:ns4__Organization{`ns6__organization-name`:'"+org2+"'})) RETURN p limit 1";
         return Query(query);
     }
     public ResponseEntity<?> around(String label, Integer id){
-        String query = "MATCH p=((n:"+label+")-[]-()) where id(n)="+id+" RETURN p";
+        String query = "MATCH p=((n:"+label+")-[]-()) where id(n)="+id+" RETURN p limit 100";
         return Query(query);
     }
 }

@@ -20,4 +20,5 @@ public class EdgeResponse {
 
     public EdgeResponse() {
     }
+
 }
