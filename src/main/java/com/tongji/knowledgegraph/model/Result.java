@@ -3,9 +3,10 @@ package com.tongji.knowledgegraph.model;
 import org.neo4j.driver.v1.types.Node;
 import org.neo4j.driver.v1.types.Relationship;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Result {
+public class Result implements Serializable {
     private ArrayList<Node> nodes;
     private ArrayList<Relationship> relationships;
 

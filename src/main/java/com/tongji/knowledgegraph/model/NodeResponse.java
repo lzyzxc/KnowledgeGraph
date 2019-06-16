@@ -14,7 +14,6 @@ import java.util.Map;
  */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class NodeResponse {
     String id;
     String label;
@@ -25,5 +24,8 @@ public class NodeResponse {
 
     public NodeResponse(Map<String, Object> attributes) {
         this.attributes = attributes;
+    }
+
+    public NodeResponse() {
     }
 }

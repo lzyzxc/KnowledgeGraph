@@ -3,6 +3,7 @@ package com.tongji.knowledgegraph.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,10 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
-public class GraphResponseEntity {
+public class GraphResponseEntity implements Serializable {
     List<NodeResponse> nodes;
     List<EdgeResponse> edges;
+
+    public GraphResponseEntity() {
+    }
 }

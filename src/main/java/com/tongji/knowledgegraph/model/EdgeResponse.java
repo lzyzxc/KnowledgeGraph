@@ -17,4 +17,7 @@ public class EdgeResponse {
     String label;
 
     Map<String, Object> attributes;
+
+    public EdgeResponse() {
+    }
 }
