@@ -2,7 +2,9 @@ package com.tongji.knowledgegraph.service;
 
 import com.tongji.knowledgegraph.model.MyNode;
 import com.tongji.knowledgegraph.model.MyRelation;
+import com.tongji.knowledgegraph.model.Result;
 import org.neo4j.driver.v1.*;
+import org.neo4j.driver.v1.types.Entity;
 import org.neo4j.driver.v1.types.Node;
 import org.neo4j.driver.v1.types.Path;
 import org.neo4j.driver.v1.types.Relationship;
@@ -18,12 +20,12 @@ public class MainService {
     private Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "neo4j"));
     private Session session = driver.session();
 
-    public StatementResult test(String name){
+    public Result test(String name){
         String query = "MATCH p=((:ns4__Organization{`ns6__organization-name`:'"+name+"'}) -[]-()) RETURN p";
         StatementResult result = session.run(query);
-        HashMap<String,Node> hashMap = new HashMap<>();
-        ArrayList<MyNode> myNodes = new ArrayList<>();
-        ArrayList<MyRelation> myRelations = new ArrayList<>();
+        Result myResult = new Result();
+        ArrayList<Node> myNodes = new ArrayList<>();
+        ArrayList<Relationship> myRelations = new ArrayList<>();
         while (result.hasNext()) {
             Record record = result.next();
             Map<Long, Node> nodesMap = new HashMap<>();
@@ -32,7 +34,10 @@ public class MainService {
             System.out.println("====================================");
             Iterable<Node> nodes = p.nodes();
             for (Node node : nodes) {
-                nodesMap.put(node.id(), node);
+                if(!myNodes.contains(node)){
+                    myNodes.add(node);
+                }
+                nodesMap.put(node.id(),node);
             }
 
             /**
@@ -40,6 +45,7 @@ public class MainService {
              */
             Iterable<Relationship> relationships = p.relationships();
             for (Relationship relationship : relationships) {
+                myRelations.add(relationship);
                 Long startID = relationship.startNodeId();
                 Long endID = relationship.endNodeId();
                 String rType = relationship.type();
@@ -49,11 +55,11 @@ public class MainService {
                 System.out.println(
                         nodesMap.get(startID).asMap() + "-" + rType + "-"
                                 + nodesMap.get(endID).asMap());
-                hashMap.put("node",nodesMap.get(startID));
-
             }
         }
+        myResult.setNodes(myNodes);
+        myResult.setRelationships(myRelations);
         System.out.println(result.toString());
-        return nodeMap;
+        return myResult;
     }
 }

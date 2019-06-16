@@ -1,5 +1,6 @@
 package com.tongji.knowledgegraph.controller;
 
+import com.tongji.knowledgegraph.model.Result;
 import com.tongji.knowledgegraph.service.MainService;
 import org.neo4j.driver.v1.StatementResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ public class MainController {
     MainService mainService;
 
     @RequestMapping(value = "/query",method = RequestMethod.GET)
-    public StatementResult query(){
-        return mainService.test();
+    public Result query(String name){
+        return mainService.test(name);
     }
 
 }
