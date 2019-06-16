@@ -1,7 +1,7 @@
 package com.tongji.knowledgegraph.model;
 
 
-public class Node extends BaseObject {
+public class MyNode extends BaseObject {
     
 	/**
 	 * 节点的uuid == 对应其他数据库中的主键
@@ -11,7 +11,7 @@ public class Node extends BaseObject {
 	/**
 	 * 节点里面是否包含有边 == 关系
 	 */
-	private Edge edge;
+	private MyRelation myRelation;
 
 	public Long getUuid() {
 		return uuid;
@@ -21,11 +21,11 @@ public class Node extends BaseObject {
 		this.uuid = uuid;
 	}
 
-	public Edge getEdge() {
-		return edge;
+	public MyRelation getMyRelation() {
+		return myRelation;
 	}
 
-	public void setEdge(Edge edge) {
-		this.edge = edge;
+	public void setMyRelation(MyRelation myRelation) {
+		this.myRelation = myRelation;
 	}
 }

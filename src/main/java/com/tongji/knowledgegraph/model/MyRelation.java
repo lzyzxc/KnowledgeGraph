@@ -2,7 +2,7 @@ package com.tongji.knowledgegraph.model;
 
 
 
-public class Edge extends BaseObject {
+public class MyRelation extends BaseObject {
 
 	/**
 	 * 关系的ID  ==  聚合、连接、属于、包括等，这些关系可能是枚举字典，因此记录关系ID是有必要的
@@ -17,7 +17,7 @@ public class Edge extends BaseObject {
 	/**
 	 * 关系指向哪一个节点 == 可能这个节点还有关系【节点关系递增下去】
 	 */
-	private Node rNode;
+	private MyNode MyNode;
 	
 	public Long getRelationID() {
 		return relationID;
@@ -35,12 +35,12 @@ public class Edge extends BaseObject {
 		this.name = name;
 	}
 
-	public Node getrNode() {
-		return rNode;
+	public MyNode getMyNode() {
+		return MyNode;
 	}
 
-	public void setrNode(Node rNode) {
-		this.rNode = rNode;
+	public void setMyNode(MyNode myNode) {
+		this.MyNode = myNode;
 	}
 	
 }

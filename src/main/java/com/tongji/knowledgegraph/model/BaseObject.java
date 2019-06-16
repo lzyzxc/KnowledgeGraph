@@ -7,7 +7,7 @@ public class BaseObject {
 
 
 	/**
-	 * 节点标签名称 == Node Labels
+	 * 节点标签名称 == MyNode Labels
 	 */
 	private String label;
 	
