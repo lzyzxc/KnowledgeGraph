@@ -89,6 +89,7 @@ public class MainService {
                 var allLabels = new ArrayList<String>();
                 var cAttrs = new HashMap<String, Object>();
                 cAttrs.put("类型", allLabels);
+                cAttrs.put("编号", Long.toString(eachNode.id()));
                 nodeAttrs.keySet().forEach(key -> cAttrs.put(key, nodeAttrs.get(key)));
                 eachNode.labels().forEach(allLabels::add);
                 NodeResponse nodeResponse = new NodeResponse(cAttrs);
@@ -186,6 +187,7 @@ public class MainService {
             var allLabels = new ArrayList<String>();
             var cAttrs = new HashMap<String, Object>();
             cAttrs.put("类型", allLabels);
+            cAttrs.put("编号", Long.toString(eachNode.id()));
             nodeAttrs.keySet().forEach(key -> cAttrs.put(key, nodeAttrs.get(key)));
             eachNode.labels().forEach(allLabels::add);
             NodeResponse nodeResponse = new NodeResponse(cAttrs);
@@ -248,6 +250,7 @@ public class MainService {
             var allLabels = new ArrayList<String>();
             var cAttrs = new HashMap<String, Object>();
             cAttrs.put("类型", allLabels);
+            cAttrs.put("编号", Long.toString(eachNode.id()));
             nodeAttrs.keySet().forEach(key -> cAttrs.put(key, nodeAttrs.get(key)));
             eachNode.labels().forEach(allLabels::add);
             NodeResponse nodeResponse = new NodeResponse(cAttrs);
